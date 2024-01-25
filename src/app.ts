@@ -1,7 +1,9 @@
 import cors from 'cors'
 import express, { Application, Request, Response } from 'express'
-import morganMiddleware from './app/middlewares/morganMiddleware'
 import router from './app/routes'
+import morganMiddleware from './app/middlewares/morganMiddleware'
+
+
 const app: Application = express()
 
 //parser
