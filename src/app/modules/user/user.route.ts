@@ -11,5 +11,4 @@ router.post(
   userControllers.createUser,
 )
 
-
- export const UserRouter = router
+export const UserRouter = router

@@ -4,10 +4,6 @@ import { User } from './user.model'
 
 const createUserIntoDB = async (payload: TUser) => {
   await User.create(payload)
-
- 
-
-
   return {}
 }
 
