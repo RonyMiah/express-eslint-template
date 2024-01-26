@@ -85,7 +85,42 @@ const changePassword = async (
   return null
 }
 
+const refreshToken = async (token: string) => {
+  
+    let decoded
+
+    try {
+      decoded = jwt.verify(token, config.jwt_secret as string) as JwtPayload
+    } catch (err) {
+      throw new AppError(httpStatus.UNAUTHORIZED, 'UnAuthorized.. !')
+    }
+    // console.log(decoded)
+    const { email } = decoded
+
+    //Check if the user is exists
+    const isUserExists = await User.findOne({ email: email })
+    if (!isUserExists) {
+      throw new AppError(httpStatus.NOT_FOUND, 'This user is Not Found ! ')
+    }
+  //create Token 
+
+  const jwtPayload = {
+    name: isUserExists.name,
+    email: isUserExists.email,
+    _id: isUserExists._id,
+  }
+
+  const accessToken = jwt.sign(jwtPayload, config.jwt_secret as string, {
+    expiresIn: config.jwt_access_expiration_minutes,
+  })
+
+  return { 
+    accessToken
+  }
+}
+
 export const AuthServices = {
   loginUser,
   changePassword,
+  refreshToken,
 }
